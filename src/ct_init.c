@@ -13,6 +13,7 @@
 #include "cJSON.h"
 
 int g_confd=0;
+sem_t init_semaphore;
 __Heapable void* g_conf_path=NULL;
 __Heapable ct_conf_info_t* g_conf_info=NULL;
 char* error_type[]={
@@ -230,6 +231,9 @@ void* __init(void* arg)
         }
     }
     __parse_conf((char*)g_conf_path);
-    //return (void*)thread_exit_msg_success;
+    sem_post(&init_semaphore);
     pthread_exit((void*)thread_exit_msg_success);
 }
+
+
+void* ct_init(void*) __attribute__((alias("__init")));
