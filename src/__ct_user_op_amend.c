@@ -123,4 +123,5 @@ int __ct_user_op_amend(const int __connfd,const char* __Nullable __filepath)
         return EXIT_SUCCESS;
     }while(0);
     printf("rCloud will exit now...\n");
+    return EXIT_FAILURE;
 }
