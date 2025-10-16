@@ -18,8 +18,6 @@
 
 extern int init_ok;
 
-#define PRINT_ERROR(STR) fprintf(stderr,"%s->%s-%s-%d",STR,__FILE__,__FUNCTION__,__LINE__)
-
 #define SERVER_PATH "/rCloud"
 
 extern char err_buff[1024];
