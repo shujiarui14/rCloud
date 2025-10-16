@@ -8,7 +8,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/stat.h>
-#include <shujiarui/debug.h>
 #include "ct_init.h"
 #include "symbol.h"
 #include "cJSON.h"
