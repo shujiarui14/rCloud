@@ -15,6 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
+#include "ct_init.h"
+#include "symbol.h"
+#include "cJSON.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -25,9 +29,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/stat.h>
-#include "ct_init.h"
-#include "symbol.h"
-#include "cJSON.h"
+
 
 int g_confd=0;
 sem_t init_semaphore;
@@ -44,7 +46,7 @@ char* error_type[]={
 char* thread_exit_msg_success="thread exit with normal";
 char* thread_exit_msg_failure="thread exit with error";
 
-__Heapable static inline int __userrc_get()
+__Heapable  int __userrc_get()
 {
     __Heapable char* userrc=(char*)malloc(CT_USERRC_MAX);
     if(NULL==userrc)
@@ -58,7 +60,7 @@ __Heapable static inline int __userrc_get()
 }
 
 
-static inline void __is_confd(char* _conf_path)
+ void __is_confd(char* _conf_path)
 {
     if(NULL==_conf_path)
         raise(SIGSEGV);
@@ -90,7 +92,7 @@ static inline void __is_confd(char* _conf_path)
 }
 
 
-static inline int __init_conf(char* _conf_path)
+int __init_conf(char* _conf_path)
 {
     char server_ip[16];
     unsigned short server_port;
@@ -170,11 +172,12 @@ static inline int __init_conf(char* _conf_path)
         return 0;
     }while(0);
     printf("rCloud will exit now...\n");
+    return -1;
 }
 
 
 //获取配置文件信息
-static inline __Heapable int __parse_conf(char* _conf_path)
+ __Heapable int __parse_conf(char* _conf_path)
 {
     if(NULL==_conf_path)
     {
@@ -233,7 +236,7 @@ static inline __Heapable int __parse_conf(char* _conf_path)
 }
 
 
-static inline void* __init(void* arg)
+ void* __init(void* arg)
 {
     __userrc_get();
     __is_confd((char*)g_conf_path);

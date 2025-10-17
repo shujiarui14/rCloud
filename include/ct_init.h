@@ -26,6 +26,7 @@
 #include "symbol.h"
 
 
+
 typedef struct _ct_conf_info
 {
     cJSON* userrc;//org info to server auth
@@ -75,15 +76,15 @@ __Heapable extern ct_conf_info_t* g_conf_info;
 #define PRINT_ERROR(STR) fprintf(stderr,"%s->%s-%s-%d",STR,__FILE__,__FUNCTION__,__LINE__)
 
 //获取配置文件所在的路径
-__Heapable static inline int __userrc_get();
+__Heapable int __userrc_get() __attribute__((visibility("hidden")));
 //检测是否有配置文件?
-static inline  void __is_confd(char* _conf_path);
+ void __is_confd(char* _conf_path) __attribute__((visibility("hidden")));
 //初始化配置文件
-static inline  int __init_conf(char* _conf_path);
+ int __init_conf(char* _conf_path) __attribute__((visibility("hidden")));
 //conf文件解析cJSON
-static inline  int __parse_conf(char* _conf_path);
+ int __parse_conf(char* _conf_path) __attribute__((visibility("hidden")));
 //初始化
-static inline  void* __init(void* arg);
+ void* __init(void* arg) __attribute__((visibility("hidden")));
 
 //留给mian的初始化，是有__init取得别名，所有__开头的函数不能被其他文件所调用
 void* ct_init(void*);
