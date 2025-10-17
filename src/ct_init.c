@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2025  Shu Jiarui
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -27,7 +44,7 @@ char* error_type[]={
 char* thread_exit_msg_success="thread exit with normal";
 char* thread_exit_msg_failure="thread exit with error";
 
-__Heapable int __userrc_get()
+__Heapable static inline int __userrc_get()
 {
     __Heapable char* userrc=(char*)malloc(CT_USERRC_MAX);
     if(NULL==userrc)
@@ -41,7 +58,7 @@ __Heapable int __userrc_get()
 }
 
 
-void __is_confd(char* _conf_path)
+static inline void __is_confd(char* _conf_path)
 {
     if(NULL==_conf_path)
         raise(SIGSEGV);
@@ -73,7 +90,7 @@ void __is_confd(char* _conf_path)
 }
 
 
-int __init_conf(char* _conf_path)
+static inline int __init_conf(char* _conf_path)
 {
     char server_ip[16];
     unsigned short server_port;
@@ -157,7 +174,7 @@ int __init_conf(char* _conf_path)
 
 
 //获取配置文件信息
-__Heapable int __parse_conf(char* _conf_path)
+static inline __Heapable int __parse_conf(char* _conf_path)
 {
     if(NULL==_conf_path)
     {
@@ -216,7 +233,7 @@ __Heapable int __parse_conf(char* _conf_path)
 }
 
 
-void* __init(void* arg)
+static inline void* __init(void* arg)
 {
     __userrc_get();
     __is_confd((char*)g_conf_path);
@@ -235,5 +252,9 @@ void* __init(void* arg)
     pthread_exit((void*)thread_exit_msg_success);
 }
 
-
+/*
+* ct_init.c 文件只有以下这个函数暴露给其他文件调用
+* 其他所有的函数不允许被其他函数调用
+* 不要尝试调用以__开头的函数
+*/
 void* ct_init(void*) __attribute__((alias("__init")));
