@@ -3,6 +3,7 @@
 #define __CT_INIT_H__
 
 #include <limits.h>
+#include <semaphore.h>
 #include "cJSON.h"
 #include "symbol.h"
 
@@ -14,6 +15,8 @@ typedef struct _ct_conf_info
     char* username;
     char* userpasswd;
 } ct_conf_info_t;
+
+extern sem_t init_semaphore;
 
 extern char* error_type[];
 
@@ -45,6 +48,8 @@ extern int __init_conf(char* _conf_path);
 extern int __parse_conf(char* _conf_path);
 //初始化
 extern void* __init(void* arg);
+
+void* ct_init(void*);
 
 
 

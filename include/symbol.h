@@ -22,6 +22,8 @@
 #define debug_assert(expr) 
 #endif
 
+#define PRINT_ERROR(STR) fprintf(stderr,"%s->%s-%s-%d",STR,__FILE__,__FUNCTION__,__LINE__)
+
 #ifndef __Nullable
 #define __Nullable
 #endif
@@ -33,7 +35,7 @@
 #define strong_alias(name,aliasname) \
     extern typeof(name) aliasname __attribute__((alias(#name)))
 
-typedef enum _sv_request
+typedef enum _sc_request
 {
     LOGIN=0x00,
     UPLOAD=0x01,
@@ -43,9 +45,7 @@ typedef enum _sv_request
     ONLINE=0x05,
     ERASE=0x06,
     SING_UP=0x07,
-    CANCEL=0x08,
-    ISDIR=0x09,
-    ISFILE=0x0A
+    CANCEL=0x08
 }sv_request_t;
 
 typedef enum __log_level
